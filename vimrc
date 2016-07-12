@@ -5,10 +5,6 @@
 " It is recommended to make changes after sourcing debian.vim since it alters
 " the value of the 'compatible' option.
 
-" This line should not be removed as it ensures that various options are
-" properly set to work with the Vim-related packages available in Debian.
-runtime! debian.vim
-
 " Uncomment the next line to make Vim more Vi-compatible
 " NOTE: debian.vim sets 'nocompatible'.  Setting 'compatible' changes numerous
 " options, so any other options should be set AFTER setting 'compatible'.
@@ -48,9 +44,9 @@ set hidden		" Hide buffers when they are abandoned
 "set mouse=a		" Enable mouse usage (all modes)
 
 " Source a global configuration file if available
-if filereadable("/etc/vim/vimrc.local")
-  source /etc/vim/vimrc.local
-endif
+"if filereadable("/etc/vim/vimrc.local")
+"  source /etc/vim/vimrc.local
+"endif
 
 " Automatic reloading of .vimrc
 autocmd! bufwritepost .vimrc source %
@@ -74,8 +70,8 @@ vnoremap <Leader>s :sort<CR>
 " Color scheme
 " mkdir -p ~/vim/colors && cd ~/.vim/colors
 " wget -O wombat256mod.vim http://www.vim.org/scripts/download_script.php?src_id=13400
-set t_Co=256
-color wombat256mod
+"set t_Co=256
+"color wombat256mod
 
 " Show line numbers
 set number
@@ -84,6 +80,6 @@ set number
 set laststatus=2
 
 " Airline
-let g:airline_powerline_fonts = 1
-execute pathogen#infect()
-filetype plugin indent on
+"let g:airline_powerline_fonts = 1
+"execute pathogen#infect()
+"filetype plugin indent on
