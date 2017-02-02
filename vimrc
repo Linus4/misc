@@ -3,6 +3,24 @@ if v:lang =~ "utf8$" || v:lang =~ "UTF-8$"
 endif
 
 set nocompatible	" Use Vim defaults (much better!)
+filetype off        " required
+
+" set the runtime path to include Vundle and initialize
+" set rtp+=~/.vim/bundle/Vundle.vim
+" call vundle#begin()
+" alternatively, pass a path where Vundle should install plugins
+"call vundle#begin('~/some/path/here')
+
+" let Vundle manage Vundle, required
+" Plugin 'VundleVim/Vundle.vim'
+" Airline
+" Plugin 'vim-airline/vim-airline'
+" Syntastic
+" Plugin 'scrooloose/syntastic'
+" call vundle#end()       " required
+" filetype plugin indent on   " required
+
+
 set bs=indent,eol,start		" allow backspacing over everything in insert mode
 set ai			" always set autoindenting on
 "set backup		" keep a backup file
@@ -14,9 +32,16 @@ set ruler		" show the cursor position all the time
 set number		" show line numbers
 set incsearch		" do incremental searching
 set ignorecase      " Ignore case when searching
-set smartcase		" do smart case matching
 set smartindent     " Automatically indent when adding a curly bracket, etc.
 set showcmd     " Display incomplete commands.
+
+set laststatus=2    " show statusline all the time (for airline)
+let g:airline_powerline_fonts = 1   " airline patched fonts
+
+set foldmethod=syntax   " Folding type
+set foldlevelstart=1    " fold one level per default
+" Colorscheme for folds
+highlight Folded ctermfg=white ctermbg=darkgrey
 
 " Only do this part when compiled with support for autocommands
 if has("autocmd")
@@ -77,3 +102,6 @@ set shiftwidth=4
 set tabstop=4
 set expandtab
 set smarttab
+
+" Toggle fold on current position
+nnoremap <s-tab> za
