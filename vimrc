@@ -6,19 +6,19 @@ set nocompatible	" Use Vim defaults (much better!)
 filetype off        " required
 
 " set the runtime path to include Vundle and initialize
-" set rtp+=~/.vim/bundle/Vundle.vim
-" call vundle#begin()
+ set rtp+=~/.vim/bundle/Vundle.vim
+ call vundle#begin()
 " alternatively, pass a path where Vundle should install plugins
 "call vundle#begin('~/some/path/here')
 
 " let Vundle manage Vundle, required
-" Plugin 'VundleVim/Vundle.vim'
-" Airline
-" Plugin 'vim-airline/vim-airline'
-" Syntastic
-" Plugin 'scrooloose/syntastic'
-" call vundle#end()       " required
-" filetype plugin indent on   " required
+ Plugin 'VundleVim/Vundle.vim'
+" Improved statusline
+ Plugin 'vim-airline/vim-airline'
+" Syntax check on write
+ Plugin 'scrooloose/syntastic'
+ call vundle#end()       " required
+ filetype plugin indent on   " required
 
 
 set bs=indent,eol,start		" allow backspacing over everything in insert mode
@@ -30,6 +30,7 @@ set history=50		" keep 50 lines of command line history
 set ruler		" show the cursor position all the time
 
 set number		" show line numbers
+set relativenumber      " show relative line-numbers
 set incsearch		" do incremental searching
 set ignorecase      " Ignore case when searching
 set smartindent     " Automatically indent when adding a curly bracket, etc.
@@ -38,10 +39,17 @@ set showcmd     " Display incomplete commands.
 set laststatus=2    " show statusline all the time (for airline)
 let g:airline_powerline_fonts = 1   " airline patched fonts
 
-set foldmethod=syntax   " Folding type
+set foldmethod=indent   " Folding type
 set foldlevelstart=1    " fold one level per default
+set fillchars=vert:┃    " BOX DRWAINGS HEAVY VERTICAL (U+2503)
+" BOX DRAWINGS BACKGROUND COLOR
+highlight VertSplit cterm=none
 " Colorscheme for folds
-highlight Folded ctermfg=white ctermbg=darkgrey
+highlight Folded ctermfg=none ctermbg=none
+
+set scrolloff=3     " start scrolling 3 lines before edge of viewport
+set shortmess+=I    " no splash screen
+set shortmess+=W    " don't echo "[w]"/"[written]" when writing
 
 " Only do this part when compiled with support for autocommands
 if has("autocmd")
@@ -77,10 +85,8 @@ if has("cscope") && filereadable("/usr/bin/cscope")
 endif
 
 " Switch syntax highlighting on, when the terminal has colors
-" Also switch on highlighting the last used search pattern.
 if &t_Co > 2 || has("gui_running")
   syntax on
-  set hlsearch
 endif
 
 filetype plugin on
@@ -105,3 +111,12 @@ set smarttab
 
 " Toggle fold on current position
 nnoremap <s-tab> za
+" Map ctrl-(h-l) to switch between splits
+nnoremap <c-H> <c-W>h
+nnoremap <c-J> <c-W>j
+nnoremap <c-K> <c-W>k
+nnoremap <c-L> <c-W>l
+
+" Splits open below and to the right
+set splitbelow
+set splitright
