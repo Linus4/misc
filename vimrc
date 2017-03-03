@@ -69,7 +69,7 @@ set viminfo='20,\"50	" read/write a .viminfo file, don't store more
 set history=50		    " keep 50 lines of command line history
 set bs=indent,eol,start	" allow backspacing over everything in insert mode
 
-" ========== SYNTHAX HIGHLIGHTING ==========
+" ========== SYNTAX HIGHLIGHTING ==========
 " Switch syntax highlighting on, when the terminal has colors
 if &t_Co > 2 || has("gui_running")
   syntax on
