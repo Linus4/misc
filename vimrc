@@ -19,8 +19,9 @@ set nocompatible	" Use Vim defaults (much better!)
 " Syntax check on write
 " Plugin 'scrooloose/syntastic'
 " call vundle#end()       " required
-" filetype plugin indent on   " required
 " ========== VUNDLE END ==========
+filetype plugin indent on
+
 
 " ========== INDENTING ==========
 set ai              " always set autoindenting on
