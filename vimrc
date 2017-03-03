@@ -92,7 +92,7 @@ let g:netrw_banner=0          " hide banner
 let g:netrw_browse_split=4    " open file in previous window
 let g:netrw_winsize=-25       " default width to 25
 let g:netrw_hide=1              " hide files matching hide-list
-let g:netrw_list_hide='.swp,.class,.pyc'  " hide swapfiles in netrw
+let g:netrw_list_hide='.swp,.class,.pyc'  " hide swapfiles, etc in netrw
 
 " ========== AUTOCOMMANDS ==========
 " Only do this part when compiled with support for autocommands
