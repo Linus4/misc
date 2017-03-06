@@ -55,6 +55,9 @@ set matchpairs+=<:> " show matches for <>-brackets (HTML)
 " match ErrorMsg '\s\+$'  " flag trailing whitespace
 highlight ColorColumn ctermbg=darkgrey " more subtle color
 set colorcolumn=80 " highlight column 80
+" https://raw.githubusercontent.com/joshdick/onedark.vim/master/colors/onedark.vim
+" colorscheme onedark " needs onedark.vim in .vim/colors
+" set termguicolors   " use correct colors (for onedark)
 
 " ========== SEARCH ==========
 set incsearch		" do incremental searching
