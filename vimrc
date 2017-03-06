@@ -6,7 +6,7 @@ set t_ut=           " disable background color erase so that color schemes work 
 set nocompatible    " Use Vim defaults (much better!)
 
 " =========== VUNDLE BEGIN ===========
-if(filereadable("~/.vim/bundle/Vundle.vim/autoload/vundle.vim"))
+if(filereadable($HOME . "/.vim/bundle/Vundle.vim/autoload/vundle.vim"))
     filetype off            " required
     " set the runtime path to include Vundle and initialize
     set rtp+=~/.vim/bundle/Vundle.vim
@@ -64,7 +64,7 @@ let g:airline_powerline_fonts = 1   " airline patched fonts
 " match ErrorMsg '\s\+$'            " flag trailing whitespace
 " Use onedark colorscheme, if available
 " https://raw.githubusercontent.com/joshdick/onedark.vim/master/colors/onedark.vim
-if(filereadable("~/.vim/colors/onedark.vim"))
+if(filereadable($HOME . "/.vim/colors/onedark.vim"))
     colorscheme onedark
 endif
 set fillchars=vert:┃    " character for vertical split drawing (U+2503)
