@@ -1,47 +1,45 @@
 if v:lang =~ "utf8$" || v:lang =~ "UTF-8$"
-   set fileencodings=ucs-bom,utf-8,latin1
+    set fileencodings=ucs-bom,utf-8,latin1
+    set fillchars=vert:┃    " BOX DRWAINGS HEAVY VERTICAL (U+2503)
 endif
 
+set t_ut=           " disable background color erase so that color schemes work properly
 set nocompatible	" Use Vim defaults (much better!)
 
 " =========== VUNDLE BEGIN ===========
-" filetype off        " required
-" set the runtime path to include Vundle and initialize
-" set rtp+=~/.vim/bundle/Vundle.vim
-" call vundle#begin()
-" alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
+if(filereadable(".vim/bundle/Vundle.vim/autoload/vundle.vim"))
+    filetype off            " required
+    " set the runtime path to include Vundle and initialize
+    set rtp+=~/.vim/bundle/Vundle.vim
+    call vundle#begin()
 
-" let Vundle manage Vundle, required
-" Plugin 'VundleVim/Vundle.vim'
-" Improved statusline
-" Plugin 'vim-airline/vim-airline'
-" Syntax check on write
-" Plugin 'scrooloose/syntastic'
-" call vundle#end()       " required
+    " let Vundle manage Vundle, required
+    Plugin 'VundleVim/Vundle.vim'
+    " Improved statusline
+    Plugin 'vim-airline/vim-airline'
+    " Syntax check on write
+    Plugin 'scrooloose/syntastic'
+    call vundle#end()       " required
+endif
+ filetype plugin indent on  " required
 " ========== VUNDLE END ==========
-filetype plugin indent on
-
 
 " ========== INDENTING ==========
-set ai              " always set autoindenting on
-set smartindent     " Automatically indent when adding a curly bracket, etc.
-set shiftwidth=4    " spaces for autoindents
+set autoindent      " always set autoindenting on
+set smartindent     " automatically indent when adding a curly bracket, etc.
+set shiftwidth=4    " amount of spaces insertet for tab
 set tabstop=4       " number of spaces a tab counts for
-set softtabstop=4
+set softtabstop=4   " number of spaces that a <Tab> counts for while performing editing operations
 set expandtab       " turns tabs into spaces
 set smarttab
 
 " ========== INTERFACE ==========
-set ruler           " show the cursor position all the time
 set number          " show line numbers
 set relativenumber  " show relative line-numbers
+set ruler           " show the cursor position all the time
 set showcmd         " Display incomplete commands.
 set laststatus=2    " show statusline all the time (for airline)
-" let g:airline_powerline_fonts = 1   " airline patched fonts
-set fillchars=vert:┃    " BOX DRWAINGS HEAVY VERTICAL (U+2503)
-highlight VertSplit cterm=none " BOX DRAWINGS BACKGROUND COLOR
-highlight Folded ctermfg=none ctermbg=none " Colorscheme for folds
+set colorcolumn=80  " highlight column 80
 set splitbelow      " Splits open below
 set splitright      " and to the right
 set scrolloff=3     " start scrolling 3 lines before edge of viewport
@@ -49,15 +47,27 @@ set shortmess+=I    " no splash screen
 set shortmess+=W    " don't echo written when writing
 set noequalalways   " don't resize windows on :q (for netrw)
 set nowrap          " don't wrap lines
-" set showmatch       " show matching bracket
-" set matchtime=2     " show matching bracket for 0.2 seconds
 set matchpairs+=<:> " show matches for <>-brackets (HTML)
-" match ErrorMsg '\s\+$'  " flag trailing whitespace
-highlight ColorColumn ctermbg=darkgrey " more subtle color
-set colorcolumn=80 " highlight column 80
+
+" ========== COLORS / FONTS ==========
+" Use truecolors if available
+if(has("termguicolors"))
+    set termguicolors
+    highlight VertSplit gui=none
+    highlight Folded guifg=NONE guibg=NONE
+    highlight ColorColumn guibg=DarkGrey
+else
+    highlight VertSplit cterm=none
+    highlight Folded ctermfg=none ctermbg=none
+    highlight ColorColumn ctermbg=darkgrey
+endif
+let g:airline_powerline_fonts = 1   " airline patched fonts
+" match ErrorMsg '\s\+$'            " flag trailing whitespace
+" Use onedark colorscheme, if available
 " https://raw.githubusercontent.com/joshdick/onedark.vim/master/colors/onedark.vim
-" colorscheme onedark " needs onedark.vim in .vim/colors
-" set termguicolors   " use correct colors (for onedark)
+if(filereadable(".vim/colors/onedark.vim"))
+    colorscheme onedark
+endif
 
 " ========== SEARCH ==========
 set incsearch		" do incremental searching
@@ -71,7 +81,7 @@ set foldlevelstart=4    " fold no level per default
 " ========== MISC ===========
 " set backup            " keep a backup file
 set viminfo='20,\"50	" read/write a .viminfo file, don't store more
-			            " than 50 lines of registers
+                        " than 50 lines of registers
 set history=50		    " keep 50 lines of command line history
 set bs=indent,eol,start	" allow backspacing over everything in insert mode
 
@@ -91,14 +101,16 @@ inoremap {{     {
 inoremap {}     {}
 " Remove trailing whitespace
 nnoremap <Leader>rtw :%s/\s\+$//e<CR>
+" leave insert-mode on jj
+inoremap jj     <ESC>l
 
 " ========== NETRW ==========
-let g:netrw_liststyle=3       " tree style listing
-let g:netrw_banner=0          " hide banner
-let g:netrw_browse_split=4    " open file in previous window
-let g:netrw_winsize=-20       " default width to 25
-let g:netrw_hide=1              " hide files matching hide-list
-let g:netrw_list_hide='.swp,.swn,.swo,.class,.pyc'  " hide swapfiles, etc in netrw
+let g:netrw_liststyle=3                             " tree style listing
+let g:netrw_banner=0                                " hide banner
+let g:netrw_browse_split=4                          " open file in previous window
+let g:netrw_winsize=-20                             " default width to 25
+let g:netrw_hide=1                                  " hide files matching hide-list
+let g:netrw_list_hide='.swp,.swn,.swo,.class,.pyc'  " hide swapfiles in netrw
 let g:netrw_bufsettings='norelativenumber nonumber' " hide line-numbers to save space
 
 " ========== AUTOCOMMANDS ==========
