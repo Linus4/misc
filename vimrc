@@ -4,7 +4,7 @@ if v:lang =~ "utf8$" || v:lang =~ "UTF-8$"
 endif
 
 set t_ut=           " disable background color erase so that color schemes work properly
-set nocompatible	" Use Vim defaults (much better!)
+set nocompatible    " Use Vim defaults (much better!)
 
 " =========== VUNDLE BEGIN ===========
 if(filereadable(".vim/bundle/Vundle.vim/autoload/vundle.vim"))
@@ -70,7 +70,7 @@ if(filereadable(".vim/colors/onedark.vim"))
 endif
 
 " ========== SEARCH ==========
-set incsearch		" do incremental searching
+set incsearch       " do incremental searching
 set ignorecase      " Ignore case when searching
 set smartcase       " case-sensitive when using uppercase
 
@@ -82,7 +82,7 @@ set foldlevelstart=4    " fold no level per default
 " set backup            " keep a backup file
 set viminfo='20,\"50	" read/write a .viminfo file, don't store more
                         " than 50 lines of registers
-set history=50		    " keep 50 lines of command line history
+set history=50          " keep 50 lines of command line history
 set bs=indent,eol,start	" allow backspacing over everything in insert mode
 
 " ========== SYNTAX HIGHLIGHTING ==========
