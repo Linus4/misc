@@ -58,7 +58,7 @@ if(has("termguicolors"))
 else
     highlight VertSplit cterm=none
     highlight Folded ctermfg=none ctermbg=none
-    highlight ColorColumn ctermbg=darkgrey
+    highlight ColorColumn ctermbg=#282C34
 endif
 let g:airline_powerline_fonts = 1   " airline patched fonts
 " match ErrorMsg '\s\+$'            " flag trailing whitespace
