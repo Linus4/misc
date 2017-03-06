@@ -1,6 +1,5 @@
 if v:lang =~ "utf8$" || v:lang =~ "UTF-8$"
     set fileencodings=ucs-bom,utf-8,latin1
-    set fillchars=vert:┃    " BOX DRWAINGS HEAVY VERTICAL (U+2503)
 endif
 
 set t_ut=           " disable background color erase so that color schemes work properly
@@ -68,6 +67,7 @@ let g:airline_powerline_fonts = 1   " airline patched fonts
 if(filereadable(".vim/colors/onedark.vim"))
     colorscheme onedark
 endif
+set fillchars=vert:┃    " character for vertical split drawing (U+2503)
 
 " ========== SEARCH ==========
 set incsearch       " do incremental searching
