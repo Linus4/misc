@@ -53,8 +53,8 @@ set nowrap          " don't wrap lines
 " set matchtime=2     " show matching bracket for 0.2 seconds
 set matchpairs+=<:> " show matches for <>-brackets (HTML)
 " match ErrorMsg '\s\+$'  " flag trailing whitespace
-highlight ColorColumn ctermbg=darkgrey
-set colorcolumn=80
+highlight ColorColumn ctermbg=darkgrey " more subtle color
+set colorcolumn=80 " highlight column 80
 
 " ========== SEARCH ==========
 set incsearch		" do incremental searching
@@ -96,6 +96,7 @@ let g:netrw_browse_split=4    " open file in previous window
 let g:netrw_winsize=-20       " default width to 25
 let g:netrw_hide=1              " hide files matching hide-list
 let g:netrw_list_hide='.swp,.swn,.swo,.class,.pyc'  " hide swapfiles, etc in netrw
+let g:netrw_bufsettings='norelativenumber nonumber' " hide line-numbers to save space
 
 " ========== AUTOCOMMANDS ==========
 " Only do this part when compiled with support for autocommands
