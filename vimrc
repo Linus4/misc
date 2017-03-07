@@ -84,6 +84,9 @@ set viminfo='20,\"50	" read/write a .viminfo file, don't store more
                         " than 50 lines of registers
 set history=50          " keep 50 lines of command line history
 set bs=indent,eol,start	" allow backspacing over everything in insert mode
+" disable beeping
+set noerrorbells
+set vb t_vb=
 
 " ========== SYNTAX HIGHLIGHTING ==========
 " Switch syntax highlighting on, when the terminal has colors
