@@ -14,7 +14,6 @@ set noerrorbells
 set vb t_vb=
 set t_ut=               " disable background color erase so that color schemes work properly
 set path+=**            " search in all subdirectories recursively (fuzzy files)
-set clipboard=unnamedplus
 
 " =========== VUNDLE BEGIN ===========
 if(filereadable($HOME . "/.vim/bundle/Vundle.vim/autoload/vundle.vim"))
@@ -46,9 +45,7 @@ set smarttab
 " ========== INTERFACE ==========
 set number          " show line numbers
 set relativenumber  " show relative line-numbers
-set ruler           " show the cursor position all the time
 set showcmd         " Display incomplete commands.
-set laststatus=2    " show statusline all the time (for airline)
 set colorcolumn=80  " highlight column 80
 set splitbelow      " Splits open below
 set splitright      " and to the right
@@ -60,6 +57,25 @@ set nowrap          " don't wrap lines
 set matchpairs+=<:> " show matches for <>-brackets (HTML)
 set wildmenu        " turn on the wildmenu (command mode completion)
 set wildignore=*.class,*.o,*.pyc,*.swp,*.swn,*.swo
+
+" ========== STATUSLINE ==========
+set laststatus=2                       " show statusline all the time
+set statusline=
+set statusline+=%1*[%n]\ %*            " buffer number
+set statusline+=%4*%<%F%*              " full path
+set statusline+=%2*%m%r%w%*            " modified/readonly flag
+set statusline+=%5*%=%{&ff}\ %*        " file format
+set statusline+=%3*%{''.(&fenc!=''?&fenc:&enc).''}\       "Encoding
+set statusline+=%3*%y%*                " file type
+set statusline+=%1*%3l%*               " current line
+set statusline+=%2*/%L%*               " total lines
+set statusline+=%1*%4v\ %*             " virtual column number
+" Syntastic flags in statusline
+if(filereadable($HOME . "/.vim/bundle/syntastic/plugin/syntastic.vim"))
+    set statusline+=%#warningmsg#
+    set statusline+=%{SyntasticStatuslineFlag()}
+    set statusline+=%*
+endif
 
 " ========== COLORS / FONTS ==========
 " Use truecolors if available
