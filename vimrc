@@ -2,8 +2,19 @@ if v:lang =~ "utf8$" || v:lang =~ "UTF-8$"
     set fileencodings=ucs-bom,utf-8,latin1
 endif
 
-set t_ut=           " disable background color erase so that color schemes work properly
-set nocompatible    " Use Vim defaults (much better!)
+" ========== MISC ===========
+set nocompatible        " Use Vim defaults (much better!)
+" set backup            " keep a backup file
+set viminfo='20,\"50	" read/write a .viminfo file, don't store more
+                        " than 50 lines of registers
+set history=50          " keep 50 lines of command line history
+set bs=indent,eol,start	" allow backspacing over everything in insert mode
+" disable beeping
+set noerrorbells
+set vb t_vb=
+set t_ut=               " disable background color erase so that color schemes work properly
+set path+=**            " search in all subdirectories recursively (fuzzy files)
+set clipboard=unnamedplus
 
 " =========== VUNDLE BEGIN ===========
 if(filereadable($HOME . "/.vim/bundle/Vundle.vim/autoload/vundle.vim"))
@@ -15,13 +26,13 @@ if(filereadable($HOME . "/.vim/bundle/Vundle.vim/autoload/vundle.vim"))
     " let Vundle manage Vundle, required
     Plugin 'VundleVim/Vundle.vim'
     " Improved statusline
-    Plugin 'vim-airline/vim-airline'
+    " Plugin 'vim-airline/vim-airline'
     " Syntax check on write
     Plugin 'scrooloose/syntastic'
     call vundle#end()       " required
 endif
- filetype plugin indent on  " required
 " ========== VUNDLE END ==========
+filetype plugin indent on  " turn on vim's plugins
 
 " ========== INDENTING ==========
 set autoindent      " always set autoindenting on
@@ -47,6 +58,8 @@ set shortmess+=W    " don't echo written when writing
 set noequalalways   " don't resize windows on :q (for netrw)
 set nowrap          " don't wrap lines
 set matchpairs+=<:> " show matches for <>-brackets (HTML)
+set wildmenu        " turn on the wildmenu (command mode completion)
+set wildignore=*.class,*.o,*.pyc,*.swp,*.swn,*.swo
 
 " ========== COLORS / FONTS ==========
 " Use truecolors if available
@@ -77,18 +90,6 @@ set smartcase       " case-sensitive when using uppercase
 " ========== FOLDING =========
 set foldmethod=syntax   " Folding type
 set foldlevelstart=4    " fold no level per default
-
-" ========== MISC ===========
-" set backup            " keep a backup file
-set viminfo='20,\"50	" read/write a .viminfo file, don't store more
-                        " than 50 lines of registers
-set history=50          " keep 50 lines of command line history
-set bs=indent,eol,start	" allow backspacing over everything in insert mode
-" disable beeping
-set noerrorbells
-set vb t_vb=
-set wildmenu            " turn on the wildmenu (command mode completion)               
-set wildignore=*.class,*.o,*.pyc,*.swp,*.swn,*.swo
 
 " ========== SYNTAX HIGHLIGHTING ==========
 " Switch syntax highlighting on, when the terminal has colors
@@ -137,7 +138,7 @@ if has("autocmd")
   augroup END
 
   " change to directory of current file automatically
-  autocmd BufEnter * lcd %:p:h
+  " autocmd BufEnter * lcd %:p:h
   " Max textwidth to 80 for python convention
   autocmd BufNewFile,BufRead *.py
       \ set textwidth=79
