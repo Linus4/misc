@@ -87,6 +87,8 @@ set bs=indent,eol,start	" allow backspacing over everything in insert mode
 " disable beeping
 set noerrorbells
 set vb t_vb=
+set wildmenu            " turn on the wildmenu (command mode completion)               
+set wildignore=*.class,*.o,*.pyc,*.swp,*.swn,*.swo
 
 " ========== SYNTAX HIGHLIGHTING ==========
 " Switch syntax highlighting on, when the terminal has colors
