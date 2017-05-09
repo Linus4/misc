@@ -1,0 +1,38 @@
+set fileencodings=utf-8     " use UTF-8 as file-encoding
+set nocompatible            " don't need vi compatibility nowadays
+filetype plugin indent on
+syntax on                   " turn on syntax highlighting
+
+" ========== INDENTING ===========
+set autoindent              " use previous indent-level
+set smartindent             " automatically indent when adding a curly bracket, etc
+" Number of spaces a tab counts for
+set shiftwidth=4
+set tabstop=4
+set softtabstop=4
+set expandtab               " use spaces instead of tab
+set smarttab
+
+" ========== INTERFACE ==========
+set number                  " show line numbers
+set showcmd                 " display incomplete commands
+set scrolloff=3             " start scrolling 3 lines before edge of viewport
+
+" ========== SEARCHING ==========
+set incsearch               " search while typing
+set ignorecase              " ignore case when searching
+set smartcase               " case-sensitive when using uppercase
+
+" ========== REMAPS ===========
+" Automatically append closing curly-brackets
+inoremap {      {}<Left>
+inoremap {<CR>  {<CR>}<Esc>O
+inoremap {{     {
+inoremap {}     {}
+
+" ========== AUTOCOMMANDS ==========
+" When editing a file, always jump to the last cursor position
+autocmd BufReadPost *
+\ if line("'\"") > 0 && line ("'\"") <= line("$") |
+\   exe "normal! g'\"" |
+\ endif
