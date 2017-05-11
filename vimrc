@@ -28,6 +28,11 @@ if(filereadable($HOME . "/.vim/bundle/Vundle.vim/autoload/vundle.vim"))
     " Plugin 'vim-airline/vim-airline'
     " Syntax check on write
     Plugin 'scrooloose/syntastic'
+    " vimproc dependency for ghcmod
+    " interactive command execution
+    Plugin 'Shougo/vimproc.vim'
+    " GHCMOD for Haskell
+    Plugin 'eagletmt/ghcmod-vim'
     call vundle#end()       " required
 endif
 " ========== VUNDLE END ==========
@@ -47,29 +52,67 @@ set number          " show line numbers
 set relativenumber  " show relative line-numbers
 set showcmd         " Display incomplete commands.
 set colorcolumn=80  " highlight column 80
+set cursorline      " highlight current line
 set splitbelow      " Splits open below
 set splitright      " and to the right
 set scrolloff=3     " start scrolling 3 lines before edge of viewport
 set shortmess+=I    " no splash screen
-set shortmess+=W    " don't echo written when writing
 set noequalalways   " don't resize windows on :q (for netrw)
 set nowrap          " don't wrap lines
 set matchpairs+=<:> " show matches for <>-brackets (HTML)
 set wildmenu        " turn on the wildmenu (command mode completion)
 set wildignore=*.class,*.o,*.pyc,*.swp,*.swn,*.swo
 
+" ========== COLORS / FONTS ==========
+" Use onedark colorscheme, if available
+" https://raw.githubusercontent.com/joshdick/onedark.vim/master/colors/onedark.vim
+if(filereadable($HOME . "/.vim/colors/onedark.vim"))
+    colorscheme onedark
+endif
+
+" Use truecolors if available
+if(has("termguicolors"))
+    " necessary to use truecolors in tmux
+    if &term =~# '^screen'
+        let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+        let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+    endif
+    set termguicolors
+endif
+
+highlight VertSplit gui=none cterm=none
+highlight Folded guifg=NONE guibg=NONE ctermfg=none ctermbg=none
+highlight ColorColumn guibg=#282C34 ctermbg=darkgrey
+highlight StatusLineNC guibg=#2C323C
+highlight User7 guifg=#EE0000 guibg=#2C323C ctermfg=red ctermbg=236
+if has("autocmd")
+    " overwrite colorscheme to make it more obvious which split has focus
+    autocmd ColorScheme * highlight StatusLineNC guibg=#2C323C
+    autocmd ColorScheme * highlight User7 guifg=#EE0000 guibg=#2C323C ctermfg=red ctermbg=236
+endif
+" let g:airline_powerline_fonts = 1   " airline patched fonts
+" match ErrorMsg '\s\+$'            " flag trailing whitespace
+set fillchars=vert:┃    " character for vertical split drawing (U+2503)
+
 " ========== STATUSLINE ==========
-set laststatus=2                       " show statusline all the time
+set laststatus=2                " show statusline all the time
 set statusline=
-set statusline+=%1*[%n]\ %*            " buffer number
-set statusline+=%4*%<%F%*              " full path
-set statusline+=%2*%m%r%w%*            " modified/readonly flag
-set statusline+=%5*%=%{&ff}\ %*        " file format
-set statusline+=%3*%{''.(&fenc!=''?&fenc:&enc).''}\       "Encoding
-set statusline+=%3*%y%*                " file type
-set statusline+=%1*%3l%*               " current line
-set statusline+=%2*/%L%*               " total lines
-set statusline+=%1*%4v\ %*             " virtual column number
+
+set statusline+=%7*             " switch to User7 highlight group
+set statusline+=▶▶\             " UTF-8 character
+set statusline+=%*              " reset highlight group
+
+set statusline+=[%n]\           " buffer number
+set statusline+=%<              " truncate point
+set statusline+=%t              " full path
+set statusline+=%m%r%w          " modified/readonly flag
+set statusline+=%=              " split point for left and right groups
+" set statusline+=%{&ff}\         " file format
+set statusline+=\ %{''.(&fenc!=''?&fenc:&enc).''}\       "Encoding
+set statusline+=%y\             " file type
+set statusline+=%3l             " current line
+set statusline+=/%L\            " total lines
+set statusline+=%4v\            " virtual column number
 " Syntastic flags in statusline
 if(filereadable($HOME . "/.vim/bundle/syntastic/plugin/syntastic.vim"))
     set statusline+=%#warningmsg#
@@ -77,35 +120,14 @@ if(filereadable($HOME . "/.vim/bundle/syntastic/plugin/syntastic.vim"))
     set statusline+=%*
 endif
 
-" ========== COLORS / FONTS ==========
-" Use truecolors if available
-if(has("termguicolors"))
-    set termguicolors
-    highlight VertSplit gui=none
-    highlight Folded guifg=NONE guibg=NONE
-    highlight ColorColumn guibg=#282C34
-else
-    highlight VertSplit cterm=none
-    highlight Folded ctermfg=none ctermbg=none
-    highlight ColorColumn ctermbg=darkgrey
-endif
-let g:airline_powerline_fonts = 1   " airline patched fonts
-" match ErrorMsg '\s\+$'            " flag trailing whitespace
-" Use onedark colorscheme, if available
-" https://raw.githubusercontent.com/joshdick/onedark.vim/master/colors/onedark.vim
-if(filereadable($HOME . "/.vim/colors/onedark.vim"))
-    colorscheme onedark
-endif
-set fillchars=vert:┃    " character for vertical split drawing (U+2503)
-
 " ========== SEARCH ==========
-set incsearch       " do incremental searching
-set ignorecase      " Ignore case when searching
-set smartcase       " case-sensitive when using uppercase
+set incsearch           " do incremental searching
+set ignorecase          " Ignore case when searching
+set smartcase           " case-sensitive when using uppercase
 
 " ========== FOLDING =========
 set foldmethod=syntax   " Folding type
-set foldlevelstart=4    " fold no level per default
+set foldlevelstart=10   " fold no level per default
 
 " ========== SYNTAX HIGHLIGHTING ==========
 " Switch syntax highlighting on, when the terminal has colors
@@ -124,7 +146,18 @@ inoremap {}     {}
 " Remove trailing whitespace
 nnoremap <Leader>rtw :%s/\s\+$//e<CR>
 " leave insert-mode on jj
-inoremap jj     <ESC>l
+" inoremap jj     <ESC>l
+" compile automatically (C)
+nnoremap <Leader>c  :!gcc -Wall -std=c11 %<CR>
+" <Leader><Leader> open last buffer
+nnoremap <Leader><Leader> <C-^>
+" Avoid typing q! by typing qq
+cnoremap qq     q!
+" to first / last character in line
+nnoremap H      ^
+nnoremap L      $
+" sudo wirte
+command! W :w !sudo tee %
 
 " ========== NETRW ==========
 let g:netrw_liststyle=3                             " tree style listing
@@ -158,6 +191,15 @@ if has("autocmd")
   " Max textwidth to 80 for python convention
   autocmd BufNewFile,BufRead *.py
       \ set textwidth=79
+  " Settings for html, css
+  autocmd BufNewFile,BufRead *.htm,*.html,*.css
+      \ set shiftwidth=2 tabstop=2 softtabstop=2 noautoindent nosmartindent nosmarttab
+  " Use ant to build java projects
+  autocmd BufNewFile,BufRead *.java
+      \ set makeprg=ant\ -f\ ..
+  " Display colorcolumn on active window only
+  autocmd WinLeave * set colorcolumn=0
+  autocmd WinEnter * set colorcolumn=80
 endif
 
 if has("cscope") && filereadable("/usr/bin/cscope")
@@ -183,3 +225,4 @@ endif
 
 " Don't wake up system with blinking cursor:
 let &guicursor = &guicursor . ",a:blinkon0"
+set nohlsearch
