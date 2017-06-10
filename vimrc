@@ -14,6 +14,7 @@ set noerrorbells
 set vb t_vb=
 set t_ut=               " disable background color erase so that color schemes work properly
 set path+=**            " search in all subdirectories recursively (fuzzy files)
+set hidden              " hide buffers instead of closing them
 
 " =========== VUNDLE BEGIN ===========
 if(filereadable($HOME . "/.vim/bundle/Vundle.vim/autoload/vundle.vim"))
@@ -24,10 +25,9 @@ if(filereadable($HOME . "/.vim/bundle/Vundle.vim/autoload/vundle.vim"))
 
     " let Vundle manage Vundle, required
     Plugin 'VundleVim/Vundle.vim'
-    " Improved statusline
-    " Plugin 'vim-airline/vim-airline'
     " Syntax check on write
     Plugin 'scrooloose/syntastic'
+    " let g:syntastic_java_javac_classpath=".:../RedBlackTreeDrawer.jar"
     " vimproc dependency for ghcmod
     " interactive command execution
     Plugin 'Shougo/vimproc.vim'
@@ -68,6 +68,11 @@ set wildignore=*.class,*.o,*.pyc,*.swp,*.swn,*.swo
 " https://raw.githubusercontent.com/joshdick/onedark.vim/master/colors/onedark.vim
 if(filereadable($HOME . "/.vim/colors/onedark.vim"))
     colorscheme onedark
+    if has("autocmd")
+        " overwrite colorscheme to make it more obvious which split has focus
+        autocmd ColorScheme * highlight StatusLineNC guibg=#2C323C
+        autocmd ColorScheme * highlight User7 guifg=#EE0000 guibg=#2C323C ctermfg=red ctermbg=236
+    endif
 endif
 
 " Use truecolors if available
@@ -85,12 +90,6 @@ highlight Folded guifg=NONE guibg=NONE ctermfg=none ctermbg=none
 highlight ColorColumn guibg=#282C34 ctermbg=darkgrey
 highlight StatusLineNC guibg=#2C323C
 highlight User7 guifg=#EE0000 guibg=#2C323C ctermfg=red ctermbg=236
-if has("autocmd")
-    " overwrite colorscheme to make it more obvious which split has focus
-    autocmd ColorScheme * highlight StatusLineNC guibg=#2C323C
-    autocmd ColorScheme * highlight User7 guifg=#EE0000 guibg=#2C323C ctermfg=red ctermbg=236
-endif
-" let g:airline_powerline_fonts = 1   " airline patched fonts
 " match ErrorMsg '\s\+$'            " flag trailing whitespace
 set fillchars=vert:┃    " character for vertical split drawing (U+2503)
 
@@ -143,12 +142,10 @@ inoremap {      {}<Left>
 inoremap {<CR>  {<CR>}<Esc>O
 inoremap {{     {
 inoremap {}     {}
-" Remove trailing whitespace
-nnoremap <Leader>rtw :%s/\s\+$//e<CR>
 " leave insert-mode on jj
 " inoremap jj     <ESC>l
 " compile automatically (C)
-nnoremap <Leader>c  :!gcc -Wall -std=c11 %<CR>
+" nnoremap <Leader>c  :!gcc -Wall -std=c11 %<CR>
 " <Leader><Leader> open last buffer
 nnoremap <Leader><Leader> <C-^>
 " Avoid typing q! by typing qq
@@ -158,12 +155,16 @@ nnoremap H      ^
 nnoremap L      $
 " sudo wirte
 command! W :w !sudo tee %
+" generate ctags
+command Ctags :!ctags -R .
+" Remove trailing whitespace
+command Rtw :%s/\s\+$//e
 
 " ========== NETRW ==========
 let g:netrw_liststyle=3                             " tree style listing
 let g:netrw_banner=0                                " hide banner
 let g:netrw_browse_split=4                          " open file in previous window
-let g:netrw_winsize=-20                             " default width to 20
+let g:netrw_winsize=-35                             " default width to 20
 let g:netrw_hide=1                                  " hide files matching hide-list
 let g:netrw_list_hide='.swp,.swn,.swo,.class,.pyc'  " hide swapfiles in netrw
 let g:netrw_bufsettings='norelativenumber nonumber' " hide line-numbers to save space
@@ -190,13 +191,20 @@ if has("autocmd")
   " autocmd BufEnter * lcd %:p:h
   " Max textwidth to 80 for python convention
   autocmd BufNewFile,BufRead *.py
-      \ set textwidth=79
+      \ setlocal textwidth=79
   " Settings for html, css
   autocmd BufNewFile,BufRead *.htm,*.html,*.css
-      \ set shiftwidth=2 tabstop=2 softtabstop=2 noautoindent nosmartindent nosmarttab
+      \ setlocal shiftwidth=2 tabstop=2 softtabstop=2 noautoindent nosmartindent nosmarttab
   " Use ant to build java projects
   autocmd BufNewFile,BufRead *.java
-      \ set makeprg=ant\ -f\ ..
+      \ set makeprg=ant\ -f\ .. |
+      \ set efm=%A\ %#[javac]\ %f:%l:\ %m,%-Z\ %#[javac]\ %p^,%-C%.%# |
+      \ abbr sop System.out.println
+  " use pandoc to build pdfs, wrap text automatically at column 80
+  autocmd BufNewFile,BufRead *.md
+      \ setlocal makeprg=pandoc\ --toc\ --template\ template.latex\ -o\ output.pdf\ % |
+      \ setlocal textwidth=79 |
+      \ setlocal formatoptions=roqlan
   " Display colorcolumn on active window only
   autocmd WinLeave * set colorcolumn=0
   autocmd WinEnter * set colorcolumn=80
