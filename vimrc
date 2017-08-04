@@ -4,17 +4,57 @@ endif
 
 " ========== MISC ===========
 set nocompatible        " Use Vim defaults (much better!)
-" set backup            " keep a backup file
-set viminfo='20,\"50	" read/write a .viminfo file, don't store more
-                        " than 50 lines of registers
-set history=50          " keep 50 lines of command line history
-set bs=indent,eol,start	" allow backspacing over everything in insert mode
-" disable beeping
-set noerrorbells
-set vb t_vb=
+set backspace=indent,eol,start	" allow backspacing over everything in insert mode
 set t_ut=               " disable background color erase so that color schemes work properly
 set path+=**            " search in all subdirectories recursively (fuzzy files)
-set hidden              " hide buffers instead of closing them
+set hidden              " hide buffers with unsaved changes without being prompted
+set formatoptions+=j    " remove comment leader when joining comments
+set nojoinspaces        " don't autoinsert two spaces after '.', '?', '!' when joining lines
+set lazyredraw          " don't bother updating screen during macro playback
+
+" ========== BELLS ==========
+set noerrorbells        " disable beeping
+set vb t_vb=
+if exists('&belloff')
+    set belloff=all     " never ring the bell for any reason
+endif
+
+" ========== TEMP FILES ==========
+set viminfo='20,\"50    " read/write a .viminfo file, don't store more
+                        " than 50 lines of registers
+set history=50          " keep 50 lines of command line history
+
+" Backups
+set backup              " keep a backup file
+if exists('$SUDO_USER')
+    set nobackup                            " don't create root-owned files
+    set nowritebackup
+else
+    set backupdir=~/local/.vim/tmp/backup
+    set backupdir+=~/.vim/tmp/backup        " keep backup files out of the way
+    set backupdir+=.
+endif
+
+" SWAP
+if exists('$SUDO_USER')
+    set noswapfile                          " don't create root-owned files
+else
+    set directory=~/local/.vim/tmp/swap//   " // so same filenames don't collide
+    set directory+=~/.vim/tmp/swap//        " keep swap files out of the way
+    set directory+=.
+endif
+
+" UNDO
+if has('persistent_undo')
+    if exists('$SUDO_USER')
+        set noundofile                      " don't create root-owned files
+    else
+        set undodir=~/local/.vim/tmp/undo
+        set undodir+=~/.vim/tmp/undo        " keep undo files out of the way
+        set undodir+=.
+        set undofile                        " actually use undofiles
+    endif
+endif
 
 " =========== VUNDLE BEGIN ===========
 if(filereadable($HOME . "/.vim/bundle/Vundle.vim/autoload/vundle.vim"))
@@ -25,14 +65,13 @@ if(filereadable($HOME . "/.vim/bundle/Vundle.vim/autoload/vundle.vim"))
 
     " let Vundle manage Vundle, required
     Plugin 'VundleVim/Vundle.vim'
+    " Better syntax highlighting and indentation for haskell
+    Plugin 'raichoo/haskell-vim'
+    " Surround with ( or " etc
+    Plugin 'tpope/vim-surround'
     " Syntax check on write
-    Plugin 'scrooloose/syntastic'
-    " let g:syntastic_java_javac_classpath=".:../RedBlackTreeDrawer.jar"
-    " vimproc dependency for ghcmod
-    " interactive command execution
-    Plugin 'Shougo/vimproc.vim'
-    " GHCMOD for Haskell
-    Plugin 'eagletmt/ghcmod-vim'
+    " Plugin 'scrooloose/syntastic'
+    " let g:syntastic_java_javac_options="-Xlint:all,-serial"
     call vundle#end()       " required
 endif
 " ========== VUNDLE END ==========
@@ -48,19 +87,19 @@ set expandtab       " turns tabs into spaces
 set smarttab
 
 " ========== INTERFACE ==========
-set number          " show line numbers
-set relativenumber  " show relative line-numbers
-set showcmd         " Display incomplete commands.
-set colorcolumn=80  " highlight column 80
-set cursorline      " highlight current line
-set splitbelow      " Splits open below
-set splitright      " and to the right
-set scrolloff=3     " start scrolling 3 lines before edge of viewport
-set shortmess+=I    " no splash screen
-set noequalalways   " don't resize windows on :q (for netrw)
-set nowrap          " don't wrap lines
-set matchpairs+=<:> " show matches for <>-brackets (HTML)
-set wildmenu        " turn on the wildmenu (command mode completion)
+set number              " show line numbers
+set relativenumber      " show relative line-numbers
+set showcmd             " Display incomplete commands.
+set colorcolumn=80      " highlight column 80
+set cursorline          " highlight current line
+set splitbelow          " Splits open below
+set splitright          " and to the right
+set scrolloff=3         " start scrolling 3 lines before edge of viewport
+set shortmess+=I        " no splash screen
+set noequalalways       " don't resize windows on :q (for netrw)
+set nowrap              " don't wrap lines
+set matchpairs+=<:>     " show matches for <>-brackets (HTML)
+set wildmenu            " turn on the wildmenu (command mode completion)
 set wildignore=*.class,*.o,*.pyc,*.swp,*.swn,*.swo
 
 " ========== COLORS / FONTS ==========
@@ -72,6 +111,7 @@ if(filereadable($HOME . "/.vim/colors/onedark.vim"))
         " overwrite colorscheme to make it more obvious which split has focus
         autocmd ColorScheme * highlight StatusLineNC guibg=#2C323C
         autocmd ColorScheme * highlight User7 guifg=#EE0000 guibg=#2C323C ctermfg=red ctermbg=236
+        " autocmd ColorScheme * highlight haskellKeyword guifg=#C678DD
     endif
 endif
 
@@ -92,6 +132,10 @@ highlight StatusLineNC guibg=#2C323C
 highlight User7 guifg=#EE0000 guibg=#2C323C ctermfg=red ctermbg=236
 " match ErrorMsg '\s\+$'            " flag trailing whitespace
 set fillchars=vert:┃    " character for vertical split drawing (U+2503)
+
+" Highlight Haskell types
+" let hs_highlight_types = 1
+" let hs_highlight_more_types = 1
 
 " ========== STATUSLINE ==========
 set laststatus=2                " show statusline all the time
@@ -135,6 +179,9 @@ if &t_Co > 2 || has("gui_running")
 endif
 
 " ========== REMAPS ==========
+" use space as leader key
+let mapleader="\<Space>"
+let maplocalleader="\\"
 " toggle fold on current location
 nnoremap <s-tab> za
 " Automatically append closing curly-brackets
@@ -142,8 +189,8 @@ inoremap {      {}<Left>
 inoremap {<CR>  {<CR>}<Esc>O
 inoremap {{     {
 inoremap {}     {}
-" leave insert-mode on jj
-" inoremap jj     <ESC>l
+" leave insert-mode on ,,
+inoremap ,,     <ESC>l
 " compile automatically (C)
 " nnoremap <Leader>c  :!gcc -Wall -std=c11 %<CR>
 " <Leader><Leader> open last buffer
@@ -153,12 +200,24 @@ cnoremap qq     q!
 " to first / last character in line
 nnoremap H      ^
 nnoremap L      $
+vnoremap H      ^
+vnoremap L      $
 " sudo wirte
 command! W :w !sudo tee %
 " generate ctags
 command Ctags :!ctags -R .
+" generate tags for haskell
+command Htags :!fast-tags -R .
 " Remove trailing whitespace
 command Rtw :%s/\s\+$//e
+" switch buffer with leader s
+nnoremap <Leader>s  :b 
+" edit (new buffer) with leader e
+nnoremap <Leader>e :e 
+" find file (fuzzy) with leader f
+nnoremap <Leader>f :find 
+" tag completion with ctrl e
+inoremap <C-e>  <C-x><C-]>
 
 " ========== NETRW ==========
 let g:netrw_liststyle=3                             " tree style listing
@@ -202,9 +261,12 @@ if has("autocmd")
       \ abbr sop System.out.println
   " use pandoc to build pdfs, wrap text automatically at column 80
   autocmd BufNewFile,BufRead *.md
-      \ setlocal makeprg=pandoc\ --toc\ --template\ template.latex\ -o\ output.pdf\ % |
+      \ setlocal makeprg=pandoc\ --toc\ -o\ output.pdf\ % |
       \ setlocal textwidth=79 |
-      \ setlocal formatoptions=roqlan
+  autocmd BufNewFile,BufRead *.hs
+      \ set makeprg=stack\ build |
+      \ set shiftwidth=2 tabstop=2 softtabstop=2 |
+      \ set kp=hoogle
   " Display colorcolumn on active window only
   autocmd WinLeave * set colorcolumn=0
   autocmd WinEnter * set colorcolumn=80
