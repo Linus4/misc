@@ -94,77 +94,77 @@
 
     - name: Enable GNOME Shell Extensions
       dconf:
-        key: /org/gnome/shell/disable-user-extensions
-        value: false
+        key: "/org/gnome/shell/disable-user-extensions"
+        value: "false"
     - name: Enable certain GNOME Shell Extensions
       dconf:
-        key: /org/gnome/shell/enabled-extensions
-        value: ['user-theme@gnome-shell-extensions.gcampax.github.com', 'dash-to-dock@micxgx.gmail.com']
+        key: "/org/gnome/shell/enabled-extensions"
+        value: "['user-theme@gnome-shell-extensions.gcampax.github.com', 'dash-to-dock@micxgx.gmail.com']"
     - name: Shrink Dash-To-Dock
       dconf:
-        key: /org/gnome/shell/extensions/dash-to-dock/custom-theme-shrink
-        value: true
+        key: "/org/gnome/shell/extensions/dash-to-dock/custom-theme-shrink"
+        value: "true"
     - name: Show weekday in clock
       dconf:
-        key: /org/gnome/desktop/interface/clock-show-date
-        value: true
+        key: "/org/gnome/desktop/interface/clock-show-date"
+        value: "true"
     - name: Show battery percentage
       dconf:
-        key: /org/gnome/desktop/interface/show-battery-percentage
-        value: true
+        key: "/org/gnome/desktop/interface/show-battery-percentage"
+        value: "true"
     - name: Disable natural scroll
       dconf:
-        key: /org/gnome/desktop/peripherals/mouse/natural-scroll
-        value: false
+        key: "/org/gnome/desktop/peripherals/mouse/natural-scroll"
+        value: "false"
     - name: Disable natural scroll touchpad
       dconf:
-        key: /org/gnome/desktop/peripherals/touchpad/natural-scroll
-        value: false
+        key: "/org/gnome/desktop/peripherals/touchpad/natural-scroll"
+        value: "false"
     - name: Enable tap to click touchpad
       dconf:
-        key: /org/gnome/desktop/peripherals/touchpad/tap-to-click
-        value: true
+        key: "/org/gnome/desktop/peripherals/touchpad/tap-to-click"
+        value: "true"
     - name: Automatically report technical problems
       dconf:
-        key: /org/gnome/desktop/privacy/report-technical-problems
-        value: true
+        key: "/org/gnome/desktop/privacy/report-technical-problems"
+        value: "true"
     - name: Shell search display order
       dconf:
-        key: /org/gnome/desktop/search-providers/sort-order
-        value: ['org.gnome.Contacts.desktop', 'org.gnome.Documents.desktop', 'org.gnome.Nautilus.desktop']
+        key: "/org/gnome/desktop/search-providers/sort-order"
+        value: "['org.gnome.Contacts.desktop', 'org.gnome.Documents.desktop', 'org.gnome.Nautilus.desktop']"
     - name: Disable automatic screen lock
       dconf:
-        key: /org/gnome/desktop/session/idle-delay
-        value: 0
+        key: "/org/gnome/desktop/session/idle-delay"
+        value: "0"
     - name: Window title bar buttons to the left
       dconf:
-        key: /org/gnome/desktop/wm/preferences/button-layout
-        value: close,minimize,maximize:appmenu
+        key: "/org/gnome/desktop/wm/preferences/button-layout"
+        value: "close,minimize,maximize:appmenu"
     - name: Files column order
       dconf:
-        key: /org/gnome/nautilus/list-view/default-column-order
-        value: ['name', 'size', 'type', 'owner', 'group', 'permissions', 'mime_type', 'where', 'date_modified', 'date_modified_with_time', 'date_accessed', 'recency', 'starred']
+        key: "/org/gnome/nautilus/list-view/default-column-order"
+        value: "['name', 'size', 'type', 'owner', 'group', 'permissions', 'mime_type', 'where', 'date_modified', 'date_modified_with_time', 'date_accessed', 'recency', 'starred']"
     - name: Files visible columns
       dconf:
-        key: /org/gnome/nautilus/list-view/default-visible-columns
-        value: ['name', 'size', 'date_modified']
+        key: "/org/gnome/nautilus/list-view/default-visible-columns"
+        value: "['name', 'size', 'date_modified']"
     - name: Files zoom level
       dconf:
-        key: /org/gnome/nautilus/list-view/default-zoom-level
-        value: small
+        key: "/org/gnome/nautilus/list-view/default-zoom-level"
+        value: "small"
     - name: Files folder viewer
       dconf:
-        key: /org/gnome/nautilus/preferences/default-folder-viewer
-        value: list-view
+        key: "/org/gnome/nautilus/preferences/default-folder-viewer"
+        value: "list-view"
     - name: Files search viewer
       dconf:
-        key: /org/gnome/nautilus/preferences/search-view
-        value: list-view
+        key: "/org/gnome/nautilus/preferences/search-view"
+        value: "list-view"
     - name: Hide terminal menubar
       dconf:
-        key: /org/gnome/terminal/legacy/default-show-menubar
-        value: false
+        key: "/org/gnome/terminal/legacy/default-show-menubar"
+        value: "false"
     - name: Disable terminal bell
       dconf:
-        key: /org/gnome/terminal/legacy/profiles:/:b1dcc9dd-5262-4d8d-a863-c897e6d979b9/audible-bell
-        value: false
+        key: "/org/gnome/terminal/legacy/profiles:/:b1dcc9dd-5262-4d8d-a863-c897e6d979b9/audible-bell"
+        value: "false"
