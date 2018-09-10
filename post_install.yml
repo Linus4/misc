@@ -172,4 +172,7 @@
         repo: https://github.com/Linus4/vim.git
         track_submodules: yes
     - name: Create Symlink to .vim/.vimrc
-      command: ln -s ~/.vim/.vimrc ~/.vimrc
+      file: 
+        src: ~/.vim/.vimrc
+        dest: ~/.vimrc
+        state: link
