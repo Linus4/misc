@@ -164,6 +164,10 @@
       dconf:
         key: "/org/gnome/terminal/legacy/profiles:/:b1dcc9dd-5262-4d8d-a863-c897e6d979b9/audible-bell"
         value: "false"
+    - name: Set favorite apps in shell
+      dconf:
+        key: "/org/gnome/shell/favorite-apps"
+        value: "['firefox.desktop', 'org.gnome.Evolution.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.Terminal.desktop', 'xournal.desktop', 'keepass.desktop']"
 
     - name: Clone .vim repository
       git:
