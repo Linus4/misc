@@ -93,97 +93,78 @@
       command: pip install streamlink
 
     - name: Enable GNOME Shell Extensions
-      become: yes
       dconf:
         key: /org/gnome/shell/disable-user-extensions
         value: false
     - name: Enable certain GNOME Shell Extensions
-      become: yes
       dconf:
         key: /org/gnome/shell/enabled-extensions
         value: ['user-theme@gnome-shell-extensions.gcampax.github.com', 'dash-to-dock@micxgx.gmail.com']
     - name: Shrink Dash-To-Dock
-      become: yes
       dconf:
         key: /org/gnome/shell/extensions/dash-to-dock/custom-theme-shrink
         value: true
     - name: Show weekday in clock
-      become: yes
       dconf:
         key: /org/gnome/desktop/interface/clock-show-date
         value: true
     - name: Show battery percentage
-      become: yes
       dconf:
         key: /org/gnome/desktop/interface/show-battery-percentage
         value: true
     - name: Disable natural scroll
-      become: yes
       dconf:
         key: /org/gnome/desktop/peripherals/mouse/natural-scroll
         value: false
     - name: Disable natural scroll touchpad
-      become: yes
       dconf:
         key: /org/gnome/desktop/peripherals/touchpad/natural-scroll
         value: false
     - name: Enable tap to click touchpad
-      become: yes
       dconf:
         key: /org/gnome/desktop/peripherals/touchpad/tap-to-click
         value: true
     - name: Automatically report technical problems
-      become: yes
       dconf:
         key: /org/gnome/desktop/privacy/report-technical-problems
         value: true
     - name: Shell search display order
-      become: yes
       dconf:
         key: /org/gnome/desktop/search-providers/sort-order
         value: ['org.gnome.Contacts.desktop', 'org.gnome.Documents.desktop', 'org.gnome.Nautilus.desktop']
     - name: Disable automatic screen lock
-      become: yes
       dconf:
         key: /org/gnome/desktop/session/idle-delay
         value: 0
     - name: Window title bar buttons to the left
-      become: yes
       dconf:
         key: /org/gnome/desktop/wm/preferences/button-layout
         value: close,minimize,maximize:appmenu
     - name: Files column order
-      become: yes
       dconf:
         key: /org/gnome/nautilus/list-view/default-column-order
         value: ['name', 'size', 'type', 'owner', 'group', 'permissions', 'mime_type', 'where', 'date_modified', 'date_modified_with_time', 'date_accessed', 'recency', 'starred']
     - name: Files visible columns
-      become: yes
       dconf:
         key: /org/gnome/nautilus/list-view/default-visible-columns
         value: ['name', 'size', 'date_modified']
     - name: Files zoom level
-      become: yes
       dconf:
         key: /org/gnome/nautilus/list-view/default-zoom-level
         value: small
     - name: Files folder viewer
-      become: yes
       dconf:
         key: /org/gnome/nautilus/preferences/default-folder-viewer
         value: list-view
     - name: Files search viewer
-      become: yes
       dconf:
         key: /org/gnome/nautilus/preferences/search-view
         value: list-view
     - name: Hide terminal menubar
-      become: yes
       dconf:
         key: /org/gnome/terminal/legacy/default-show-menubar
         value: false
     - name: Disable terminal bell
-      become: yes
       dconf:
         key: /org/gnome/terminal/legacy/profiles:/:b1dcc9dd-5262-4d8d-a863-c897e6d979b9/audible-bell
         value: false
