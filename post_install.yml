@@ -1,3 +1,6 @@
+# This is an ansible playbook I use to set up my Fedora Workstation.
+# Install ansible, get this file, then run `ansible-playbook post_install.yml`.
+
 - hosts: localhost
   tasks:
     - name: Enable RPM Fusion Repos
@@ -175,6 +178,7 @@
         key: "/org/gnome/shell/favorite-apps"
         value: "['firefox.desktop', 'org.gnome.Evolution.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.Terminal.desktop', 'xournal.desktop', 'keepass.desktop']"
 
+    # .vim repo must not be present for this to work
     - name: Clone .vim repository
       git:
         clone: yes
