@@ -180,3 +180,7 @@
         src: ~/.vim/.vimrc
         dest: ~/.vimrc
         state: link
+    - name: Get tmux config
+      command: curl https://raw.githubusercontent.com/Linus4/misc/master/.tmux.conf > ~/.tmux.conf
+    - name: Get ghci config
+      command: curl https://raw.githubusercontent.com/Linus4/misc/master/.ghci > ~/.ghci
