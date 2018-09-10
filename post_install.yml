@@ -91,6 +91,11 @@
     - name: Install streamlink
       become: yes
       command: pip install streamlink
+    - name: Install libselinux (dependency for ansible get_url)
+      become: yes
+      package:
+        name: libselinux
+        state: present
 
     - name: Enable GNOME Shell Extensions
       dconf:
@@ -181,6 +186,10 @@
         dest: ~/.vimrc
         state: link
     - name: Get tmux config
-      command: curl https://raw.githubusercontent.com/Linus4/misc/master/.tmux.conf > ~/.tmux.conf
+      get_url:
+        url: "https://raw.githubusercontent.com/Linus4/misc/master/.tmux.conf"
+        dest: "~/.tmux.conf"
     - name: Get ghci config
-      command: curl https://raw.githubusercontent.com/Linus4/misc/master/.ghci > ~/.ghci
+      get_url:
+        url: "https://raw.githubusercontent.com/Linus4/misc/master/.ghci"
+        dest: "~/.ghci"
