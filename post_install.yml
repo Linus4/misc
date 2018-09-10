@@ -94,7 +94,7 @@
     - name: Install libselinux (dependency for ansible get_url)
       become: yes
       package:
-        name: libselinux
+        name: libselinux-python
         state: present
 
     - name: Enable GNOME Shell Extensions
