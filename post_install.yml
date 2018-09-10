@@ -137,10 +137,18 @@
       dconf:
         key: "/org/gnome/desktop/search-providers/sort-order"
         value: "['org.gnome.Contacts.desktop', 'org.gnome.Documents.desktop', 'org.gnome.Nautilus.desktop']"
-    - name: Disable automatic screen lock
+    - name: Idle delay
       dconf:
         key: "/org/gnome/desktop/session/idle-delay"
         value: "0"
+    - name: Disable ambient light sensor
+      dconf:
+        key: "/org/gnome/settings-daemon/plugins/power/ambient-enabled"
+        value: "false"
+    - name: Do not dim the screen when idle
+      dconf:
+        key: "/org/gnome/settings-daemon/plugins/power/idle-dim"
+        value: "false"
     - name: Window title bar buttons to the left
       dconf: 
         key: "/org/gnome/desktop/wm/preferences/button-layout"
