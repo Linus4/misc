@@ -124,10 +124,6 @@
       dconf:
         key: "/org/gnome/desktop/peripherals/touchpad/tap-to-click"
         value: "true"
-    - name: Automatically report technical problems
-      dconf:
-        key: "/org/gnome/desktop/privacy/report-technical-problems"
-        value: "true"
     - name: Shell search display order
       dconf:
         key: "/org/gnome/desktop/search-providers/sort-order"
@@ -137,9 +133,13 @@
         key: "/org/gnome/desktop/session/idle-delay"
         value: "0"
     - name: Window title bar buttons to the left
-      dconf:
+      dconf: 
         key: "/org/gnome/desktop/wm/preferences/button-layout"
-        value: "close,minimize,maximize:appmenu"
+        value: "'close,minimize,maximize:appmenu'"
+    - name: Files zoom level
+      dconf:
+        key: "/org/gnome/nautilus/list-view/default-zoom-level"
+        value: "'small'"
     - name: Files column order
       dconf:
         key: "/org/gnome/nautilus/list-view/default-column-order"
@@ -148,18 +148,14 @@
       dconf:
         key: "/org/gnome/nautilus/list-view/default-visible-columns"
         value: "['name', 'size', 'date_modified']"
-    - name: Files zoom level
-      dconf:
-        key: "/org/gnome/nautilus/list-view/default-zoom-level"
-        value: "small"
     - name: Files folder viewer
       dconf:
         key: "/org/gnome/nautilus/preferences/default-folder-viewer"
-        value: "list-view"
+        value: "'list-view'"
     - name: Files search viewer
       dconf:
         key: "/org/gnome/nautilus/preferences/search-view"
-        value: "list-view"
+        value: "'list-view'"
     - name: Hide terminal menubar
       dconf:
         key: "/org/gnome/terminal/legacy/default-show-menubar"
