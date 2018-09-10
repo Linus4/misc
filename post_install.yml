@@ -2,6 +2,7 @@
   tasks:
     - name: Enable RPM Fusion Repos
       become: yes
+      # Make sure to use the correct version number! \FIXME
       command: dnf install https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-28.noarch.rpm https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-28.noarch.rpm -y
     - name: Install htop
       become: yes
