@@ -137,10 +137,10 @@
       dconf:
         key: "/org/gnome/desktop/search-providers/sort-order"
         value: "['org.gnome.Contacts.desktop', 'org.gnome.Documents.desktop', 'org.gnome.Nautilus.desktop']"
-    - name: Idle delay
+    - name: Idle delay (never idle)
       dconf:
         key: "/org/gnome/desktop/session/idle-delay"
-        value: "0"
+        value: "uint32 0"
     - name: Disable ambient light sensor
       dconf:
         key: "/org/gnome/settings-daemon/plugins/power/ambient-enabled"
