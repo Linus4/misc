@@ -1,5 +1,5 @@
 # This is an ansible playbook I use to set up my Fedora Workstation.
-# Install ansible, get this file, then run `ansible-playbook post_install.yml`.
+# Install ansible, get this file, run `sudo echo "hi"`, then run `ansible-playbook post_install.yml`.
 
 - hosts: localhost
   tasks:
