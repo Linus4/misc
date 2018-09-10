@@ -1,0 +1,186 @@
+- hosts: localhost
+  tasks:
+    - name: Install htop
+      become: yes
+      package:
+        name: htop
+        state: present
+    - name: Install tmux
+      become: yes
+      package:
+        name: tmux
+        state: present
+    - name: Install vim
+      become: yes
+      package:
+        name: vim-enhanced
+        state: present
+    - name: Install pandoc
+      become: yes
+      package:
+        name: pandoc
+        state: present
+    - name: Install texlive
+      become: yes
+      package:
+        name: texlive
+        state: present
+    - name: Install texlive-babel-german
+      become: yes
+      package:
+        name: texlive-babel-german
+        state: present
+    - name: Install Calibre
+      become: yes
+      package:
+        name: calibre
+        state: present
+    - name: Install xournal
+      become: yes
+      package:
+        name: xournal
+        state: present
+    - name: Install keepass
+      become: yes
+      package:
+        name: keepass
+        state: present
+    - name: Install gnome-tweaks
+      become: yes
+      package:
+        name: gnome-tweaks
+        state: present
+    - name: Install vlc
+      become: yes
+      package:
+        name: vlc
+        state: present
+    - name: Install ffmpeg
+      become: yes
+      package:
+        name: ffmpeg
+        state: present
+    - name: Install youtube-dl
+      become: yes
+      package:
+        name: youtube-dl
+        state: present
+    - name: Install chrome-gnome-shell
+      become: yes
+      package:
+        name: chrome-gnome-shell
+        state: present
+    - name: Install dconf-editor
+      become: yes
+      package:
+        name: dconf-editor
+        state: present
+    - name: Install shell extension dash-to-dock
+      become: yes
+      package:
+        name: gnome-shell-extension-dash-to-dock.noarch
+        state: present
+    - name: Install shell extension user themes
+      become: yes
+      package:
+        name: gnome-shell-extension-user-theme.noarch
+        state: present
+    - name: Install streamlink
+      become: yes
+      command: pip install streamlink
+
+    - name: Enable GNOME Shell Extensions
+      become: yes
+      dconf:
+        key: /org/gnome/shell/disable-user-extensions
+        value: false
+    - name: Enable certain GNOME Shell Extensions
+      become: yes
+      dconf:
+        key: /org/gnome/shell/enabled-extensions
+        value: ['user-theme@gnome-shell-extensions.gcampax.github.com', 'dash-to-dock@micxgx.gmail.com']
+    - name: Shrink Dash-To-Dock
+      become: yes
+      dconf:
+        key: /org/gnome/shell/extensions/dash-to-dock/custom-theme-shrink
+        value: true
+    - name: Show weekday in clock
+      become: yes
+      dconf:
+        key: /org/gnome/desktop/interface/clock-show-date
+        value: true
+    - name: Show battery percentage
+      become: yes
+      dconf:
+        key: /org/gnome/desktop/interface/show-battery-percentage
+        value: true
+    - name: Disable natural scroll
+      become: yes
+      dconf:
+        key: /org/gnome/desktop/peripherals/mouse/natural-scroll
+        value: false
+    - name: Disable natural scroll touchpad
+      become: yes
+      dconf:
+        key: /org/gnome/desktop/peripherals/touchpad/natural-scroll
+        value: false
+    - name: Enable tap to click touchpad
+      become: yes
+      dconf:
+        key: /org/gnome/desktop/peripherals/touchpad/tap-to-click
+        value: true
+    - name: Automatically report technical problems
+      become: yes
+      dconf:
+        key: /org/gnome/desktop/privacy/report-technical-problems
+        value: true
+    - name: Shell search display order
+      become: yes
+      dconf:
+        key: /org/gnome/desktop/search-providers/sort-order
+        value: ['org.gnome.Contacts.desktop', 'org.gnome.Documents.desktop', 'org.gnome.Nautilus.desktop']
+    - name: Disable automatic screen lock
+      become: yes
+      dconf:
+        key: /org/gnome/desktop/session/idle-delay
+        value: 0
+    - name: Window title bar buttons to the left
+      become: yes
+      dconf:
+        key: /org/gnome/desktop/wm/preferences/button-layout
+        value: close,minimize,maximize:appmenu
+    - name: Files column order
+      become: yes
+      dconf:
+        key: /org/gnome/nautilus/list-view/default-column-order
+        value: ['name', 'size', 'type', 'owner', 'group', 'permissions', 'mime_type', 'where', 'date_modified', 'date_modified_with_time', 'date_accessed', 'recency', 'starred']
+    - name: Files visible columns
+      become: yes
+      dconf:
+        key: /org/gnome/nautilus/list-view/default-visible-columns
+        value: ['name', 'size', 'date_modified']
+    - name: Files zoom level
+      become: yes
+      dconf:
+        key: /org/gnome/nautilus/list-view/default-zoom-level
+        value: small
+    - name: Files folder viewer
+      become: yes
+      dconf:
+        key: /org/gnome/nautilus/preferences/default-folder-viewer
+        value: list-view
+    - name: Files search viewer
+      become: yes
+      dconf:
+        key: /org/gnome/nautilus/preferences/search-view
+        value: list-view
+    - name: Hide terminal menubar
+      become: yes
+      dconf:
+        key: /org/gnome/terminal/legacy/default-show-menubar
+        value: false
+    - name: Disable terminal bell
+      become: yes
+      dconf:
+        key: /org/gnome/terminal/legacy/profiles:/:b1dcc9dd-5262-4d8d-a863-c897e6d979b9/audible-bell
+        value: false
