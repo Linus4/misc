@@ -1,5 +1,8 @@
 - hosts: localhost
   tasks:
+    - name: Enable RPM Fusion Repos
+      become: yes
+      command: sudo dnf install https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
     - name: Install htop
       become: yes
       package:
