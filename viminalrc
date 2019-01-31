@@ -4,6 +4,8 @@ filetype plugin indent on
 syntax on                   " turn on syntax highlighting
 set path+=**                " search in all subdirectories recursively (fuzzy files)
 set hidden              " hide buffers with unsaved changes without being prompted
+" Allow backspacing over everything in insert mode.
+set backspace=indent,eol,start
 
 " ========== INDENTING ===========
 set autoindent              " use previous indent-level
@@ -18,7 +20,9 @@ set smarttab
 " ========== INTERFACE ==========
 set number                  " show line numbers
 set showcmd                 " display incomplete commands
+set ruler                   " show the cursor position all the time
 set scrolloff=3             " start scrolling 3 lines before edge of viewport
+set wildmenu                " display completion matches in a status line
 
 " ========== SEARCHING ==========
 set incsearch               " search while typing
