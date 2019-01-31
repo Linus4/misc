@@ -2,6 +2,8 @@ set fileencodings=utf-8     " use UTF-8 as file-encoding
 set nocompatible            " don't need vi compatibility nowadays
 filetype plugin indent on
 syntax on                   " turn on syntax highlighting
+set path+=**                " search in all subdirectories recursively (fuzzy files)
+set hidden              " hide buffers with unsaved changes without being prompted
 
 " ========== INDENTING ===========
 set autoindent              " use previous indent-level
@@ -10,7 +12,7 @@ set smartindent             " automatically indent when adding a curly bracket, 
 set shiftwidth=4
 set tabstop=4
 set softtabstop=4
-set expandtab               " use spaces instead of tab
+set expandtab               " use spaces instead of tabs
 set smarttab
 
 " ========== INTERFACE ==========
@@ -24,11 +26,17 @@ set ignorecase              " ignore case when searching
 set smartcase               " case-sensitive when using uppercase
 
 " ========== REMAPS ===========
+" use space as leader key
+let mapleader="\<Space>"
+let maplocalleader="\\"
+" <Leader><Leader> open last buffer
+nnoremap <Leader><Leader> <C-^>
 " Automatically append closing curly-brackets
-inoremap {      {}<Left>
 inoremap {<CR>  {<CR>}<Esc>O
-inoremap {{     {
-inoremap {}     {}
+" Avoid typing q! by typing qq
+cnoremap qq     q!
+" find file (fuzzy) with leader f
+nnoremap <Leader>f :find 
 
 " ========== AUTOCOMMANDS ==========
 " When editing a file, always jump to the last cursor position
