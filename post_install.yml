@@ -40,9 +40,9 @@
       - gnome-shell-extension-user-theme.noarch
       - libselinux-python
     
-    - name: Install streamlink
-      become: yes
-      command: pip install streamlink
+    - pip:
+        name: streamlink
+        become: True
 
     - name: Enable GNOME Shell Extensions
       dconf:
