@@ -1,9 +1,12 @@
 # This is an ansible playbook I use to set up my Fedora Workstation.
-# Remember to fix 2 version numbers @\FIXME
+# Remember to fix version number @\FIXME
 # Install ansible, get this file, run `sudo echo "hi"`, then run `ansible-playbook post_install.yml`. (might not be required anymore)
 
 - name: Setup Fedora Workstation
   hosts: localhost
+  vars:
+    # Make sure to use the correct version number \FIXME
+    os_version: 30
   become: true
   
   tasks:
@@ -15,8 +18,7 @@
 
     - name: Enable RPM Fusion Repos
       become: yes
-      # Make sure to use the correct version number! \FIXME
-      command: sudo dnf install https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-28.noarch.rpm https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-28.noarch.rpm -y
+      command: sudo dnf install https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-{{os_version}}.noarch.rpm https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-{{os_version}}.noarch.rpm -y
     
     - name: Install extra packages
       dnf: name={{item}} state=installed
@@ -36,9 +38,11 @@
       - youtube-dl
       - chrome-gnome-shell
       - dconf-editor
-      - gnome-shell-extension-dash-to-dock.noarch
+#      - gnome-shell-extension-dash-to-dock.noarch
+#      - Extensions workspace isolated dash & alt tab workspace
       - gnome-shell-extension-user-theme.noarch
       - libselinux-python
+      - evolution-ews
     
     - pip:
         name: streamlink
@@ -52,10 +56,10 @@
       dconf:
         key: "/org/gnome/shell/enabled-extensions"
         value: "['user-theme@gnome-shell-extensions.gcampax.github.com', 'dash-to-dock@micxgx.gmail.com']"
-    - name: Shrink Dash-To-Dock
-      dconf:
-        key: "/org/gnome/shell/extensions/dash-to-dock/custom-theme-shrink"
-        value: "true"
+#    - name: Shrink Dash-To-Dock
+#      dconf:
+#        key: "/org/gnome/shell/extensions/dash-to-dock/custom-theme-shrink"
+#        value: "true"
     - name: Show weekday in clock
       dconf:
         key: "/org/gnome/desktop/interface/clock-show-date"
