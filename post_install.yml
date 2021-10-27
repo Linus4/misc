@@ -1,13 +1,12 @@
 # This is an ansible playbook I use to set up my Fedora Workstation.
 # Remember to fix version number @\FIXME
-# Install ansible, get this file, run `sudo echo "hi"`, then run `ansible-playbook post_install.yml`. (might not be required anymore)
+# run `ansible-playbook -K post_install.yml`
 
 - name: Setup Fedora Workstation
   hosts: localhost
   vars:
     # Make sure to use the correct version number \FIXME
-    os_version: 30
-  become: true
+    os_version: 34
   
   tasks:
   
@@ -15,38 +14,36 @@
       dnf:
         name: "*"
         state: latest
+      become: yes
 
     - name: Enable RPM Fusion Repos
       become: yes
-      command: sudo dnf install https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-{{os_version}}.noarch.rpm https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-{{os_version}}.noarch.rpm -y
+      command: dnf install https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-{{os_version}}.noarch.rpm https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-{{os_version}}.noarch.rpm -y
     
     - name: Install extra packages
-      dnf: name={{item}} state=installed
-      with_items:
-      - htop
-      - tmux
-      - vim-enhanced
-      - pandoc
-      - texlive
-      - texlive-babel-german
-      - calibre
-      - xournal
-      - keepass
-      - gnome-tweaks
-      - vlc
-      - ffmpeg
-      - youtube-dl
-      - chrome-gnome-shell
-      - dconf-editor
-#      - gnome-shell-extension-dash-to-dock.noarch
-#      - Extensions workspace isolated dash & alt tab workspace
-      - gnome-shell-extension-user-theme.noarch
-      - libselinux-python
-      - evolution-ews
+      dnf:
+        name:
+          - htop
+          - tmux
+          - vim-enhanced
+          - xournal
+          - keepassxc
+          - gnome-tweaks
+          - ffmpeg
+          - youtube-dl
+          - chrome-gnome-shell
+          - dconf-editor
+          - gnome-shell-extension-user-theme.noarch
+          - python3-libselinux
+          - python3-psutil
+          - evolution-ews
+        state: installed
+      become: yes
     
-    - pip:
+    - name: Install streamlink
+      pip:
         name: streamlink
-        become: True
+      become: yes
 
     - name: Enable GNOME Shell Extensions
       dconf:
@@ -68,14 +65,6 @@
       dconf:
         key: "/org/gnome/desktop/interface/show-battery-percentage"
         value: "true"
-    - name: Disable natural scroll
-      dconf:
-        key: "/org/gnome/desktop/peripherals/mouse/natural-scroll"
-        value: "false"
-    - name: Disable natural scroll touchpad
-      dconf:
-        key: "/org/gnome/desktop/peripherals/touchpad/natural-scroll"
-        value: "false"
     - name: Enable tap to click touchpad
       dconf:
         key: "/org/gnome/desktop/peripherals/touchpad/tap-to-click"
@@ -131,7 +120,7 @@
     - name: Set favorite apps in shell
       dconf:
         key: "/org/gnome/shell/favorite-apps"
-        value: "['firefox.desktop', 'org.gnome.Evolution.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.Terminal.desktop', 'xournal.desktop', 'keepass.desktop']"
+        value: "['firefox.desktop', 'org.gnome.Evolution.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.Terminal.desktop', 'keepassxc.desktop']"
 
     # .vim repo must not be present for this to work
     - name: Clone .vim repository
@@ -149,7 +138,3 @@
       get_url:
         url: "https://raw.githubusercontent.com/Linus4/misc/master/.tmux.conf"
         dest: "~/.tmux.conf"
-    - name: Get ghci config
-      get_url:
-        url: "https://raw.githubusercontent.com/Linus4/misc/master/.ghci"
-        dest: "~/.ghci"
