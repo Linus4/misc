@@ -134,6 +134,8 @@
         src: ~/.vim/.vimrc
         dest: ~/.vimrc
         state: link
+    - name: Create temporary directories for vim
+      command: mkdir -p ~/.vim/tmp/undo ~/.vim/tmp/swap ~/.vim/tmp/backup
     - name: Get tmux config
       get_url:
         url: "https://raw.githubusercontent.com/Linus4/misc/master/.tmux.conf"
